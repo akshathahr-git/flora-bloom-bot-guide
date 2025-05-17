@@ -4,9 +4,9 @@ import { Flower } from "lucide-react";
 
 const FloraHeader: React.FC = () => {
   return (
-    <header className="py-4 px-4 md:px-8 flex items-center justify-center bg-gradient-to-r from-flora-petal/50 to-flora-lavender/30">
+    <header className="py-5 px-4 md:px-8 flex items-center justify-center bg-gradient-to-r from-flora-petal/50 to-flora-lavender/30 shadow-sm">
       <div className="flex items-center gap-3 animate-float">
-        <div className="bg-white p-2.5 rounded-full shadow-md">
+        <div className="bg-white p-2.5 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105">
           <Flower className="h-8 w-8 text-flora-rose animate-pulse-gentle" />
         </div>
         <div>
@@ -14,7 +14,7 @@ const FloraHeader: React.FC = () => {
             <span className="text-flora-rose">Flora</span>Bot
           </h1>
           <p className="text-xs md:text-sm text-flora-text/70">
-            Your intelligent flower guide
+            Your intelligent botanical assistant
           </p>
         </div>
       </div>

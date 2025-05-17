@@ -17,7 +17,7 @@ export const flowerDatabase: Record<string, FlowerInfo> = {
     family: "Rosaceae",
     nativeRegion: "Various regions across Europe, Asia, and North America",
     floweringSeason: "Spring to Fall",
-    symbolicMeaning: "Symbol of beauty, love, and honor",
+    symbolicMeaning: "Symbol of beauty, honor, and appreciation",
     funFact: "Roses are among the oldest flowers in cultivation, with fossil evidence dating back 35 million years."
   },
   "tulip": {
@@ -26,7 +26,7 @@ export const flowerDatabase: Record<string, FlowerInfo> = {
     family: "Liliaceae",
     nativeRegion: "Central Asia, Turkey, and Iran",
     floweringSeason: "Spring",
-    symbolicMeaning: "Perfect love, fame, and perfect happiness",
+    symbolicMeaning: "Perfect happiness, prosperity, and good wishes",
     funFact: "During the 'Tulip Mania' in the 1600s, tulip bulbs were more valuable than gold in the Netherlands."
   },
   "daisy": {
@@ -53,7 +53,7 @@ export const flowerDatabase: Record<string, FlowerInfo> = {
     family: "Liliaceae",
     nativeRegion: "Northern Hemisphere in Asia, Europe, and North America",
     floweringSeason: "Summer",
-    symbolicMeaning: "Purity, rebirth, and passion",
+    symbolicMeaning: "Purity, rebirth, and renewal",
     funFact: "Some lily species can grow up to 8 feet tall in the wild."
   },
   "orchid": {
@@ -62,7 +62,7 @@ export const flowerDatabase: Record<string, FlowerInfo> = {
     family: "Orchidaceae",
     nativeRegion: "Every continent except Antarctica",
     floweringSeason: "Varies by species",
-    symbolicMeaning: "Beauty, luxury, strength, and fertility",
+    symbolicMeaning: "Beauty, luxury, strength, and refinement",
     funFact: "Orchids have the smallest seeds in the world, resembling dust particles."
   },
   "daffodil": {
@@ -80,7 +80,7 @@ export const flowerDatabase: Record<string, FlowerInfo> = {
     family: "Caryophyllaceae",
     nativeRegion: "Mediterranean region",
     floweringSeason: "Spring to Summer",
-    symbolicMeaning: "Fascination, distinction, and love",
+    symbolicMeaning: "Fascination, distinction, and admiration",
     funFact: "Carnations have been cultivated for over 2,000 years and are one of the oldest cultivated flowers."
   },
   "dahlia": {
@@ -116,7 +116,7 @@ export const flowerDatabase: Record<string, FlowerInfo> = {
     family: "Asteraceae",
     nativeRegion: "North and South America",
     floweringSeason: "Spring to Fall",
-    symbolicMeaning: "Passion, creativity, and the warmth of the rising sun",
+    symbolicMeaning: "Creativity and the warmth of the rising sun",
     funFact: "Marigolds are used in many cultures as natural insect repellents in gardens and farms."
   },
   "chrysanthemum": {

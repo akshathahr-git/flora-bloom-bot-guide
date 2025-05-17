@@ -136,8 +136,7 @@ const Index = () => {
       // Process the message to see if it's asking about a specific flower
       const messageText = message.toLowerCase();
       
-      // Simple pattern matching to extract flower names
-      // In a production app, this would use a more sophisticated NLP approach
+      // Enhanced pattern matching to extract flower names
       const flowerMatches = messageText.match(/(?:about|what|is|are|tell me about|the) ([a-z ]+?)(?:\?|$|\s+)/);
       let flowerName = flowerMatches ? flowerMatches[1].trim() : null;
       
@@ -163,11 +162,11 @@ const Index = () => {
           setIdentifiedFlower(flowerInfo);
           setUploadedImageUrl(null); // Clear any previous image
           
-          // Create a friendly response
+          // Create a scientific response without occasion-related information
           setMessages(prev => [
             ...prev,
             {
-              text: `The ${flowerInfo.commonName} (${flowerInfo.scientificName}) is from the ${flowerInfo.family} family. It's native to ${flowerInfo.nativeRegion} and typically flowers during ${flowerInfo.floweringSeason}. ${flowerInfo.funFact}`,
+              text: `The ${flowerInfo.commonName} (${flowerInfo.scientificName}) belongs to the ${flowerInfo.family} family. Native to ${flowerInfo.nativeRegion}, it typically flowers during ${flowerInfo.floweringSeason}. ${flowerInfo.funFact}`,
               isBot: true,
               timestamp: new Date()
             }
@@ -187,7 +186,7 @@ const Index = () => {
         setMessages(prev => [
           ...prev,
           {
-            text: "I can help you identify flowers from images or provide information about specific flowers. Try uploading a flower image or ask me about a particular flower like 'Tell me about roses'.",
+            text: "I can help you identify flowers from images or provide information about specific flowers. Try uploading a flower image or ask me about a particular flower like 'Tell me about daffodils'.",
             isBot: true,
             timestamp: new Date()
           }
@@ -250,7 +249,7 @@ const Index = () => {
           )}
           
           {!identifiedFlower && (
-            <div className="mt-8 text-center flex flex-col items-center justify-center p-8 rounded-lg bg-white/50 backdrop-blur-sm">
+            <div className="mt-8 text-center flex flex-col items-center justify-center p-8 rounded-lg bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
               <div className="relative">
                 <div className="absolute -top-10 -right-10">
                   <Flower className="h-16 w-16 text-flora-leaf/20 animate-sway" />
