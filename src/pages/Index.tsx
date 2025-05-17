@@ -160,7 +160,7 @@ const Index = () => {
         
         if (flowerInfo) {
           setIdentifiedFlower(flowerInfo);
-          setUploadedImageUrl(null); // Clear any previous image
+          setUploadedImageUrl(null); // Clear any previous uploaded image
           
           // Create a scientific response without occasion-related information
           setMessages(prev => [

@@ -11,6 +11,9 @@ interface FlowerCardProps {
 }
 
 const FlowerCard: React.FC<FlowerCardProps> = ({ flowerInfo, imageUrl }) => {
+  // Use uploaded image if available, otherwise use the flower's image URL from database
+  const displayImageUrl = imageUrl || flowerInfo.imageUrl;
+
   return (
     <Card className="flower-card overflow-hidden max-w-md w-full mx-auto animate-fade-in">
       <CardHeader className="bg-gradient-to-r from-flora-petal/40 to-flora-lavender/30 pb-2">
@@ -21,10 +24,10 @@ const FlowerCard: React.FC<FlowerCardProps> = ({ flowerInfo, imageUrl }) => {
         <CardDescription className="italic">{flowerInfo.scientificName}</CardDescription>
       </CardHeader>
       
-      {imageUrl && (
+      {displayImageUrl && (
         <div className="w-full h-48 overflow-hidden">
           <img 
-            src={imageUrl} 
+            src={displayImageUrl} 
             alt={flowerInfo.commonName} 
             className="w-full h-full object-cover"
           />
