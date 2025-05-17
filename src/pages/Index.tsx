@@ -21,7 +21,7 @@ interface Message {
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
-      text: "Hello! I'm FloraBot. Ask me about any flower and I'll provide detailed information!",
+      text: "Hello! I'm FloraBot. Ask me about any flower like rose, tulip, lily, or others and I'll provide detailed information!",
       isBot: true,
       timestamp: new Date()
     }
@@ -52,14 +52,29 @@ const Index = () => {
     setIsLoading(true);
     
     try {
-      // Process the message to see if it's asking about a specific flower
+      // Process the message to identify flower names
       const messageText = message.toLowerCase();
       
-      // Enhanced pattern matching to extract flower names
-      const flowerMatches = messageText.match(/(?:about|what|is|are|tell me about|the) ([a-z ]+?)(?:\?|$|\s+)/);
-      let flowerName = flowerMatches ? flowerMatches[1].trim() : null;
+      // List of common flower names to look for
+      const commonFlowerNames = [
+        "rose", "tulip", "lily", "orchid", "daisy", "sunflower", "peony", 
+        "carnation", "chrysanthemum", "lavender", "marigold", "lotus", 
+        "hibiscus", "magnolia", "camellia", "poppy", "zinnia", 
+        "daffodil", "anemone", "iris", "jasmine", "geranium", 
+        "gardenia", "hydrangea", "violet", "snapdragon", "begonia", 
+        "azalea", "dahlia", "freesia"
+      ];
       
-      // If no specific pattern match, try to extract any word that might be a flower
+      // Check for flower names in the message
+      let flowerName = null;
+      for (const name of commonFlowerNames) {
+        if (messageText.includes(name)) {
+          flowerName = name;
+          break;
+        }
+      }
+      
+      // If no specific flower found, try extracting words
       if (!flowerName) {
         const words = messageText.split(/\s+/);
         for (const word of words) {
@@ -80,7 +95,7 @@ const Index = () => {
         if (flowerInfo) {
           setIdentifiedFlower(flowerInfo);
           
-          // Create a scientific response without occasion-related information
+          // Create a scientific response
           setMessages(prev => [
             ...prev,
             {
@@ -89,6 +104,11 @@ const Index = () => {
               timestamp: new Date()
             }
           ]);
+          
+          // Show a toast notification
+          toast.success(`Found information about ${flowerInfo.commonName}!`, {
+            position: "top-right",
+          });
         } else {
           setMessages(prev => [
             ...prev,
@@ -104,7 +124,7 @@ const Index = () => {
         setMessages(prev => [
           ...prev,
           {
-            text: "I can provide information about specific flowers. Try asking me about a particular flower like 'Tell me about daffodils'.",
+            text: "I can provide information about specific flowers. Try asking me about a particular flower like 'Tell me about daffodils' or just type a flower name like 'Rose' or 'Lily'.",
             isBot: true,
             timestamp: new Date()
           }
@@ -132,7 +152,7 @@ const Index = () => {
       
       <main className="flex-1 container py-6 px-4 md:px-8 grid md:grid-cols-2 gap-8">
         <div className="flex flex-col h-[calc(100vh-200px)] md:order-2">
-          <div className="flex-grow overflow-auto p-4 rounded-lg bg-gray-50/70 backdrop-blur-sm" id="chat-container">
+          <div className="flex-grow overflow-auto p-4 rounded-lg bg-white/80 backdrop-blur-sm shadow-lg" id="chat-container">
             {messages.map((msg, index) => (
               <ChatMessage
                 key={index}
@@ -143,11 +163,11 @@ const Index = () => {
             ))}
             
             {isLoading && (
-              <div className="flex items-center gap-2 p-3">
-                <div className="flex gap-1">
-                  <span className="h-2 w-2 bg-flora-rose rounded-full animate-pulse"></span>
-                  <span className="h-2 w-2 bg-flora-rose rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></span>
-                  <span className="h-2 w-2 bg-flora-rose rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+              <div className="flex items-center gap-2 p-3 animate-pulse">
+                <div className="flex gap-1.5">
+                  <span className="h-2.5 w-2.5 bg-flora-rose rounded-full animate-bounce" style={{ animationDelay: '0s' }}></span>
+                  <span className="h-2.5 w-2.5 bg-flora-leaf rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
+                  <span className="h-2.5 w-2.5 bg-flora-lavender rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></span>
                 </div>
                 <span className="text-xs text-gray-500">FloraBot is thinking...</span>
               </div>
@@ -163,19 +183,34 @@ const Index = () => {
           {identifiedFlower ? (
             <FlowerCard flowerInfo={identifiedFlower} />
           ) : (
-            <div className="mt-8 text-center flex flex-col items-center justify-center p-8 rounded-lg bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
-              <div className="relative">
+            <div className="mt-8 text-center flex flex-col items-center justify-center p-8 rounded-lg bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in">
+              <div className="relative p-6">
                 <div className="absolute -top-10 -right-10">
-                  <Flower className="h-16 w-16 text-flora-leaf/20 animate-sway" />
+                  <Flower className="h-16 w-16 text-flora-leaf/30 animate-sway" />
                 </div>
                 <div className="absolute -bottom-6 -left-6">
-                  <Flower className="h-10 w-10 text-flora-rose/20 animate-sway" style={{animationDelay: '0.5s'}} />
+                  <Flower className="h-10 w-10 text-flora-rose/30 animate-sway" style={{animationDelay: '0.5s'}} />
                 </div>
-                <h2 className="font-display text-2xl text-flora-text mb-3">Welcome to FloraBot!</h2>
+                <h2 className="font-display text-2xl text-flora-text mb-3 animate-fade-in">Welcome to FloraBot!</h2>
+                <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                  <p className="text-flora-text/70 max-w-sm">
+                    Ask me about any flower to get detailed information with beautiful photos. Try typing "Rose", "Tulip", "Lily" or others!
+                  </p>
+                </div>
+                <div className="mt-6 animate-fade-in" style={{ animationDelay: '0.6s' }}>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {["Rose", "Tulip", "Lily", "Orchid", "Sunflower"].map((flower) => (
+                      <span 
+                        key={flower} 
+                        onClick={() => handleSendMessage(flower)}
+                        className="px-3 py-1 bg-flora-petal/30 text-flora-text rounded-full cursor-pointer hover:bg-flora-petal/50 transition-colors"
+                      >
+                        {flower}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <p className="text-flora-text/70 max-w-sm">
-                Ask questions about specific flowers to get detailed information with beautiful photos.
-              </p>
             </div>
           )}
         </div>
