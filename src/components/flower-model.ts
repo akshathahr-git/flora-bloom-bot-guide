@@ -1,9 +1,6 @@
+// This file contains the functions for flower information retrieval
 
-// This file contains the functions for the flower classification model
-
-import { toast } from "sonner";
-
-// List of flowers the model can identify
+// List of flowers the bot can provide information about
 export const flowerClasses = [
   "rose", "tulip", "daisy", "sunflower", "lily", "orchid", "daffodil", 
   "carnation", "dahlia", "iris", "peony", "marigold", "chrysanthemum", "hibiscus"
@@ -162,34 +159,6 @@ export interface FlowerInfo {
   symbolicMeaning: string;
   funFact: string;
   imageUrl?: string;
-}
-
-// Simulate flower classification using the @huggingface/transformers library
-export async function classifyFlowerImage(imageFile: File): Promise<string | null> {
-  try {
-    // In a real implementation, this would use a pre-trained model
-    // For now, we'll use a more deterministic mock implementation for demo purposes
-    
-    // Return a promise that resolves after a short delay to simulate model processing
-    return new Promise((resolve) => {
-      toast.info("Analyzing your flower...");
-      
-      // This is where we would actually process the image
-      setTimeout(() => {
-        // For demonstration purposes:
-        // We'll use a simpler deterministic method - in a real app this would be ML-based
-        const randomIndex = Math.floor(Math.random() * 3); // Limit to first 3 flowers for more consistency
-        const flowerType = flowerClasses[randomIndex];
-        
-        toast.success("Flower identified!");
-        resolve(flowerType);
-      }, 2000);
-    });
-  } catch (error) {
-    console.error("Error classifying flower:", error);
-    toast.error("Failed to classify your flower. Please try again.");
-    return null;
-  }
 }
 
 // Function to get flower information by name (for text-based queries)

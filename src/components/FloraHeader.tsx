@@ -14,7 +14,7 @@ const FloraHeader: React.FC = () => {
             <span className="text-flora-rose animate-bounce-gentle">Flora</span>Bot
           </h1>
           <p className="text-xs md:text-sm text-flora-text/70">
-            Your intelligent botanical assistant
+            Your botanical information assistant
           </p>
         </div>
       </div>

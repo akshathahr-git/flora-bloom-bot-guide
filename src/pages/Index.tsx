@@ -5,13 +5,12 @@ import { toast } from "sonner";
 
 // Components
 import FloraHeader from "@/components/FloraHeader";
-import ImageUploader from "@/components/ImageUploader";
 import FlowerCard from "@/components/FlowerCard";
 import ChatInput from "@/components/ChatInput";
 import ChatMessage from "@/components/ChatMessage";
 
 // Model utils
-import { classifyFlowerImage, getFlowerInfo, FlowerInfo } from "@/components/flower-model";
+import { getFlowerInfo, FlowerInfo } from "@/components/flower-model";
 
 interface Message {
   text: string;
@@ -22,14 +21,13 @@ interface Message {
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
-      text: "Hello! I'm FloraBot. Upload a flower image or ask me about any flower!",
+      text: "Hello! I'm FloraBot. Ask me about any flower and I'll provide detailed information!",
       isBot: true,
       timestamp: new Date()
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [identifiedFlower, setIdentifiedFlower] = useState<FlowerInfo | null>(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
   
   // Auto scroll to bottom when messages update
   useEffect(() => {
@@ -38,85 +36,6 @@ const Index = () => {
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
   }, [messages]);
-
-  // Handle image upload
-  const handleImageSelected = async (file: File) => {
-    setIsLoading(true);
-    
-    // Create a temporary URL for preview
-    const previewUrl = URL.createObjectURL(file);
-    setUploadedImageUrl(previewUrl);
-    
-    try {
-      // Add a user message with the image
-      setMessages(prev => [
-        ...prev,
-        {
-          text: "I uploaded a flower image for identification.",
-          isBot: false,
-          timestamp: new Date()
-        }
-      ]);
-
-      // Classify the flower image
-      const flowerType = await classifyFlowerImage(file);
-      
-      if (flowerType) {
-        // Get flower information from the database
-        const flowerInfo = getFlowerInfo(flowerType);
-        
-        if (flowerInfo) {
-          setIdentifiedFlower(flowerInfo);
-          
-          // Add a bot response
-          setMessages(prev => [
-            ...prev,
-            {
-              text: `I identified this as a ${flowerInfo.commonName} (${flowerInfo.scientificName}).`,
-              isBot: true,
-              timestamp: new Date()
-            }
-          ]);
-        } else {
-          toast.error("I couldn't find detailed information about this flower.");
-          
-          setMessages(prev => [
-            ...prev,
-            {
-              text: "I recognized this flower, but I don't have detailed information about it.",
-              isBot: true,
-              timestamp: new Date()
-            }
-          ]);
-        }
-      } else {
-        toast.error("Failed to identify the flower. Please try another image.");
-        
-        setMessages(prev => [
-          ...prev,
-          {
-            text: "I couldn't identify this flower. Please try uploading a clearer image.",
-            isBot: true,
-            timestamp: new Date()
-          }
-        ]);
-      }
-    } catch (error) {
-      console.error("Error processing image:", error);
-      toast.error("There was an error processing your image.");
-      
-      setMessages(prev => [
-        ...prev,
-        {
-          text: "Sorry, there was an error processing your image.",
-          isBot: true,
-          timestamp: new Date()
-        }
-      ]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   // Handle text messages
   const handleSendMessage = async (message: string) => {
@@ -160,7 +79,6 @@ const Index = () => {
         
         if (flowerInfo) {
           setIdentifiedFlower(flowerInfo);
-          setUploadedImageUrl(null); // Clear any previous uploaded image
           
           // Create a scientific response without occasion-related information
           setMessages(prev => [
@@ -186,7 +104,7 @@ const Index = () => {
         setMessages(prev => [
           ...prev,
           {
-            text: "I can help you identify flowers from images or provide information about specific flowers. Try uploading a flower image or ask me about a particular flower like 'Tell me about daffodils'.",
+            text: "I can provide information about specific flowers. Try asking me about a particular flower like 'Tell me about daffodils'.",
             isBot: true,
             timestamp: new Date()
           }
@@ -242,13 +160,9 @@ const Index = () => {
         </div>
         
         <div className="flex flex-col gap-6 md:order-1">
-          <ImageUploader onImageSelected={handleImageSelected} />
-          
-          {identifiedFlower && (
-            <FlowerCard flowerInfo={identifiedFlower} imageUrl={uploadedImageUrl} />
-          )}
-          
-          {!identifiedFlower && (
+          {identifiedFlower ? (
+            <FlowerCard flowerInfo={identifiedFlower} />
+          ) : (
             <div className="mt-8 text-center flex flex-col items-center justify-center p-8 rounded-lg bg-white/50 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
               <div className="relative">
                 <div className="absolute -top-10 -right-10">
@@ -260,7 +174,7 @@ const Index = () => {
                 <h2 className="font-display text-2xl text-flora-text mb-3">Welcome to FloraBot!</h2>
               </div>
               <p className="text-flora-text/70 max-w-sm">
-                Upload a flower image for identification or ask questions about specific flowers to get detailed information.
+                Ask questions about specific flowers to get detailed information with beautiful photos.
               </p>
             </div>
           )}
