@@ -22,6 +22,12 @@ const FloraHeader: React.FC = () => {
             <span className="inline-block text-flora-leaf animate-pulse-gentle">B</span>
             <span className="inline-block animate-float" style={{ animationDelay: "0.5s" }}>o</span>
             <span className="inline-block animate-float" style={{ animationDelay: "0.6s" }}>t</span>
+            <div className="absolute -top-3 -right-6">
+              <Flower className="h-5 w-5 text-flora-leaf/50 animate-spin-slow" />
+            </div>
+            <div className="absolute top-2 -left-4">
+              <Flower className="h-3 w-3 text-flora-rose/40 animate-spin-slow" style={{animationDelay: "0.4s"}} />
+            </div>
           </h1>
           <p className="text-xs md:text-sm text-flora-text/70 animate-fade-in">
             Your botanical information assistant

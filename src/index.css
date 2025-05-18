@@ -110,6 +110,15 @@
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
+.flower-sample {
+  animation: float 6s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.flower-sample:hover {
+  transform: translateY(-3px);
+}
+
 .upload-area {
   transition: all 0.3s ease;
 }
@@ -142,6 +151,12 @@
   50% { opacity: 0.6; }
 }
 
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
 .animate-spin-slow {
   animation: spin-slow 8s linear infinite;
 }
@@ -154,3 +169,26 @@
   animation: pulse-slow 3s ease-in-out infinite;
 }
 
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.animate-pop {
+  animation: pop 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-2px); }
+  40%, 80% { transform: translateX(2px); }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}

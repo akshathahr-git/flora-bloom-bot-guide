@@ -10,7 +10,7 @@ import ChatInput from "@/components/ChatInput";
 import ChatMessage from "@/components/ChatMessage";
 
 // Model utils
-import { getFlowerInfo, FlowerInfo } from "@/components/flower-model";
+import { getFlowerInfo, FlowerInfo, flowerDatabase } from "@/components/flower-model";
 
 interface Message {
   text: string;
@@ -28,6 +28,9 @@ const Index = () => {
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [identifiedFlower, setIdentifiedFlower] = useState<FlowerInfo | null>(null);
+  
+  // Featured flower options - use from database to ensure we have images
+  const featuredFlowers = Object.keys(flowerDatabase).slice(0, 15);
   
   // Auto scroll to bottom when messages update
   useEffect(() => {
@@ -183,32 +186,45 @@ const Index = () => {
           {identifiedFlower ? (
             <FlowerCard flowerInfo={identifiedFlower} />
           ) : (
-            <div className="mt-8 text-center flex flex-col items-center justify-center p-8 rounded-lg bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in">
-              <div className="relative p-6">
+            <div className="mt-4 text-center p-6 rounded-lg bg-white/70 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in">
+              <div className="relative p-2">
                 <div className="absolute -top-10 -right-10">
-                  <Flower className="h-16 w-16 text-flora-leaf/30 animate-sway" />
+                  <Flower className="h-16 w-16 text-flora-leaf/30 animate-spin-slow" />
                 </div>
                 <div className="absolute -bottom-6 -left-6">
-                  <Flower className="h-10 w-10 text-flora-rose/30 animate-sway" style={{animationDelay: '0.5s'}} />
+                  <Flower className="h-10 w-10 text-flora-rose/30 animate-spin-slow" style={{animationDelay: '0.5s'}} />
                 </div>
                 <h2 className="font-display text-2xl text-flora-text mb-3 animate-fade-in">Welcome to FloraBot!</h2>
                 <div className="animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                  <p className="text-flora-text/70 max-w-sm">
-                    Ask me about any flower to get detailed information with beautiful photos. Try typing "Rose", "Tulip", "Lily" or others!
+                  <p className="text-flora-text/70 max-w-sm mx-auto mb-6">
+                    Ask me about any flower to get detailed information with beautiful photos!
                   </p>
                 </div>
-                <div className="mt-6 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-                  <div className="flex flex-wrap justify-center gap-2">
-                    {["Rose", "Tulip", "Lily", "Orchid", "Sunflower"].map((flower) => (
-                      <span 
-                        key={flower} 
-                        onClick={() => handleSendMessage(flower)}
-                        className="px-3 py-1 bg-flora-petal/30 text-flora-text rounded-full cursor-pointer hover:bg-flora-petal/50 transition-colors"
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto p-2">
+                  {featuredFlowers.map((flowerKey) => {
+                    const flower = flowerDatabase[flowerKey];
+                    return (
+                      <div 
+                        key={flowerKey}
+                        onClick={() => handleSendMessage(flower.commonName)}
+                        className="flower-sample group rounded-lg overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+                        style={{ animationDelay: `${Math.random() * 0.5}s` }}
                       >
-                        {flower}
-                      </span>
-                    ))}
-                  </div>
+                        <div className="relative h-24 overflow-hidden">
+                          <img 
+                            src={flower.imageUrl} 
+                            alt={flower.commonName}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                            <span className="text-white font-medium p-2 text-sm group-hover:text-flora-petal transition-colors">
+                              {flower.commonName}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
