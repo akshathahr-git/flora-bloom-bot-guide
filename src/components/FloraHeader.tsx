@@ -4,9 +4,27 @@ import { Flower } from "lucide-react";
 
 const FloraHeader: React.FC = () => {
   return (
-    <header className="py-5 px-4 md:px-8 flex items-center justify-center bg-gradient-to-r from-flora-petal/50 via-flora-lavender/20 to-flora-leaf/10 shadow-sm relative overflow-hidden">
+    <header className="py-5 px-4 md:px-8 flex items-center justify-center bg-gradient-to-r from-flora-petal via-flora-lavender/30 to-flora-leaf/20 shadow-md relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* More floating flowers in the background */}
+        {[...Array(8)].map((_, i) => (
+          <div 
+            key={i} 
+            className="absolute opacity-10"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${15 + Math.random() * 10}s`,
+              animationDelay: `${Math.random() * 5}s`
+            }}
+          >
+            <Flower 
+              className={`h-${8 + Math.floor(Math.random() * 12)} w-${8 + Math.floor(Math.random() * 12)} text-flora-${['rose', 'leaf', 'sunflower', 'lavender'][Math.floor(Math.random() * 4)]} animate-spin-slow`} 
+            />
+          </div>
+        ))}
+        
         <div className="absolute -top-10 -left-10 opacity-10">
           <Flower className="h-28 w-28 text-flora-rose animate-spin-slow" style={{animationDuration: "15s"}} />
         </div>
@@ -20,24 +38,29 @@ const FloraHeader: React.FC = () => {
       
       <div className="flex items-center gap-3 animate-float z-10">
         <div className="relative">
-          <div className="absolute -top-2 -right-2 w-4 h-4 bg-flora-leaf rounded-full animate-ping opacity-75"></div>
-          <div className="bg-white p-2.5 rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-110 group">
+          <div className="absolute -top-2 -right-2 w-5 h-5 bg-flora-leaf rounded-full animate-ping opacity-75"></div>
+          <div className="bg-white p-3 rounded-full shadow-lg transition-all duration-500 hover:shadow-xl hover:scale-125 group">
             <Flower 
-              className="h-8 w-8 text-flora-rose transform transition-all duration-700 group-hover:rotate-180" 
-              style={{ filter: "drop-shadow(0 0 3px rgba(255,107,129,0.5))" }}
+              className="h-10 w-10 text-flora-rose transform transition-all duration-700 group-hover:rotate-180" 
+              style={{ filter: "drop-shadow(0 0 5px rgba(255,107,129,0.7))" }}
             />
           </div>
         </div>
         <div>
-          <h1 className="text-2xl md:text-3xl font-display font-bold tracking-tight text-flora-text relative">
-            <span className="inline-block text-flora-rose animate-bounce-gentle">F</span>
-            <span className="inline-block animate-float" style={{ animationDelay: "0.1s" }}>l</span>
-            <span className="inline-block animate-float" style={{ animationDelay: "0.2s" }}>o</span>
-            <span className="inline-block animate-float" style={{ animationDelay: "0.3s" }}>r</span>
-            <span className="inline-block animate-float" style={{ animationDelay: "0.4s" }}>a</span>
-            <span className="inline-block text-flora-leaf animate-pulse-gentle">B</span>
-            <span className="inline-block animate-float" style={{ animationDelay: "0.5s" }}>o</span>
-            <span className="inline-block animate-float" style={{ animationDelay: "0.6s" }}>t</span>
+          <h1 className="text-2xl md:text-4xl font-display font-bold tracking-tight text-flora-text relative">
+            {['F', 'l', 'o', 'r', 'a', 'B', 'o', 't'].map((letter, i) => (
+              <span 
+                key={i}
+                className={`inline-block ${
+                  letter === 'F' ? 'text-flora-rose animate-bounce-gentle' : 
+                  letter === 'B' ? 'text-flora-leaf animate-pulse-gentle' : 
+                  'animate-float'
+                }`} 
+                style={{ animationDelay: `${i * 0.1}s` }}
+              >
+                {letter}
+              </span>
+            ))}
             <div className="absolute -top-3 -right-6">
               <Flower className="h-5 w-5 text-flora-leaf/50 animate-spin-slow" />
             </div>
@@ -46,8 +69,10 @@ const FloraHeader: React.FC = () => {
             </div>
           </h1>
           <p className="text-xs md:text-sm text-flora-text/70 animate-fade-in relative">
-            <span className="relative inline-block">
-              Your botanical information assistant
+            <span className="relative group inline-block">
+              <span className="bg-gradient-to-r from-flora-rose via-flora-lavender to-flora-leaf bg-clip-text text-transparent font-semibold">
+                Your botanical information assistant
+              </span>
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-flora-rose to-flora-leaf scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></span>
             </span>
           </p>
