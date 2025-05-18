@@ -29,8 +29,8 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [identifiedFlower, setIdentifiedFlower] = useState<FlowerInfo | null>(null);
   
-  // Featured flower options - use from database to ensure we have images
-  const featuredFlowers = Object.keys(flowerDatabase).slice(0, 15);
+  // Featured flowers - only showing the 5 specified flowers
+  const featuredFlowers = ["rose", "tulip", "daisy", "sunflower", "iris"];
   
   // Auto scroll to bottom when messages update
   useEffect(() => {
@@ -200,26 +200,36 @@ const Index = () => {
                     Ask me about any flower to get detailed information with beautiful photos!
                   </p>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto p-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[400px] overflow-y-auto p-2">
                   {featuredFlowers.map((flowerKey) => {
                     const flower = flowerDatabase[flowerKey];
                     return (
                       <div 
                         key={flowerKey}
                         onClick={() => handleSendMessage(flower.commonName)}
-                        className="flower-sample group rounded-lg overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 animate-fade-in"
+                        className="flower-sample group rounded-lg overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 animate-fade-in hover:scale-105"
                         style={{ animationDelay: `${Math.random() * 0.5}s` }}
                       >
-                        <div className="relative h-24 overflow-hidden">
+                        <div className="relative h-32 overflow-hidden">
                           <img 
                             src={flower.imageUrl} 
                             alt={flower.commonName}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            loading="eager"
+                            onError={(e) => {
+                              // Fallback image if the original one fails to load
+                              (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=60";
+                            }}
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-                            <span className="text-white font-medium p-2 text-sm group-hover:text-flora-petal transition-colors">
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent/30 flex items-end">
+                            <span className="text-white font-medium p-3 text-base group-hover:text-flora-petal transition-colors">
                               {flower.commonName}
                             </span>
+                          </div>
+                          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                            <div className="bg-white/80 p-1.5 rounded-full transform rotate-0 group-hover:rotate-180 transition-all duration-700">
+                              <Flower className="h-4 w-4 text-flora-rose" />
+                            </div>
                           </div>
                         </div>
                       </div>

@@ -1,4 +1,3 @@
-
 // This file contains the functions for flower information retrieval
 
 // List of flowers the bot can provide information about
@@ -159,7 +158,7 @@ export const flowerDatabase: Record<string, FlowerInfo> = {
     floweringSeason: "Summer to Fall",
     symbolicMeaning: "Delicate beauty, glory, and fame",
     funFact: "Some hibiscus varieties are used to make tea that is rich in vitamin C.",
-    imageUrl: "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aGliaXNjdXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=80"
+    imageUrl: "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
   },
   "lavender": {
     commonName: "Lavender",

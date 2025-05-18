@@ -12,7 +12,7 @@ interface FlowerCardProps {
 const FlowerCard: React.FC<FlowerCardProps> = ({ flowerInfo }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // Reliable fallback images for flowers that tend to have issues
+  // Enhanced reliable fallback images for flowers that tend to have issues
   const fallbackImages: Record<string, string> = {
     "lily": "https://images.unsplash.com/photo-1588635655481-e1c1b8abb08c?auto=format&fit=crop&w=500&q=80",
     "orchid": "https://images.unsplash.com/photo-1566907225058-deb03ee6b871?auto=format&fit=crop&w=500&q=80",
@@ -21,18 +21,30 @@ const FlowerCard: React.FC<FlowerCardProps> = ({ flowerInfo }) => {
     "lotus": "https://images.unsplash.com/photo-1606293926249-9390013c6d2a?auto=format&fit=crop&w=500&q=80",
     "carnation": "https://images.unsplash.com/photo-1589123053646-4e8c49a14940?auto=format&fit=crop&w=500&q=80",
     "dahlia": "https://images.unsplash.com/photo-1610397648930-477b8c7f0943?auto=format&fit=crop&w=500&q=80",
+    "hibiscus": "https://images.unsplash.com/photo-1591825729269-caeb344f6df2?auto=format&fit=crop&w=500&q=80",
   };
 
-  // Get image source with fallback
+  // Get image source with enhanced fallback logic
   const getImageSource = () => {
     const flowerNameLower = flowerInfo.commonName.toLowerCase();
-    return fallbackImages[flowerNameLower] || flowerInfo.imageUrl || 
-      "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=60";
+    
+    // First check our specific fallbacks
+    if (fallbackImages[flowerNameLower]) {
+      return fallbackImages[flowerNameLower];
+    }
+    
+    // Then use the image from the flower database if available
+    if (flowerInfo.imageUrl && flowerInfo.imageUrl.length > 10) {
+      return flowerInfo.imageUrl;
+    }
+    
+    // Default fallback
+    return "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=80";
   };
 
   return (
     <Card className="flower-card overflow-hidden max-w-md w-full mx-auto animate-fade-in hover:scale-[1.02] transition-all duration-500 border-2 border-flora-petal/30 relative">
-      {/* Animated background elements */}
+      {/* Enhanced animated background elements */}
       <div className="absolute -right-12 -top-12 opacity-5 z-0">
         <Flower className="h-32 w-32 text-flora-leaf animate-spin-slow" style={{animationDuration: "20s"}} />
       </div>
@@ -63,11 +75,15 @@ const FlowerCard: React.FC<FlowerCardProps> = ({ flowerInfo }) => {
           src={getImageSource()}
           alt={flowerInfo.commonName} 
           className={`w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 group-hover:rotate-1 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-          loading="lazy"
+          loading="eager"
           onLoad={() => setImageLoaded(true)}
           onError={(e) => {
-            // Fallback image if the original one fails to load
-            (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=60";
+            console.log(`Error loading image for ${flowerInfo.commonName}`);
+            // Enhanced fallback strategy
+            const fallbackUrl = "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=500&q=80";
+            if ((e.target as HTMLImageElement).src !== fallbackUrl) {
+              (e.target as HTMLImageElement).src = fallbackUrl;
+            }
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-end p-3">
