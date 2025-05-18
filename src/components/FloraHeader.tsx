@@ -5,28 +5,33 @@ import { Flower } from "lucide-react";
 const FloraHeader: React.FC = () => {
   return (
     <header className="py-5 px-4 md:px-8 flex items-center justify-center bg-gradient-to-r from-flora-petal via-flora-lavender/30 to-flora-leaf/20 shadow-lg relative overflow-hidden">
-      {/* Enhanced animated background elements */}
+      {/* Enhanced animated background elements with more variety */}
       <div className="absolute inset-0 overflow-hidden">
         {/* More floating flowers with increased animation variety */}
-        {[...Array(12)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <div 
             key={i} 
             className="absolute opacity-10"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
-              animationDuration: `${15 + Math.random() * 15}s`,
+              animationDuration: `${15 + Math.random() * 20}s`,
               animationDelay: `${Math.random() * 5}s`,
               transform: `rotate(${Math.random() * 360}deg) scale(${0.7 + Math.random() * 0.6})`
             }}
           >
             <Flower 
               className={`h-${8 + Math.floor(Math.random() * 12)} w-${8 + Math.floor(Math.random() * 12)} text-flora-${['rose', 'leaf', 'sunflower', 'lavender'][Math.floor(Math.random() * 4)]} ${Math.random() > 0.5 ? 'animate-spin-slow' : 'animate-float'}`} 
-              style={{ filter: "drop-shadow(0 0 3px rgba(255,255,255,0.5))" }}
+              style={{ 
+                filter: "drop-shadow(0 0 3px rgba(255,255,255,0.5))",
+                animationDuration: `${10 + Math.random() * 10}s`,
+                animationDirection: Math.random() > 0.5 ? 'normal' : 'reverse'
+              }}
             />
           </div>
         ))}
         
+        {/* Added more prominent background elements */}
         <div className="absolute -top-10 -left-10 opacity-20">
           <Flower className="h-28 w-28 text-flora-rose animate-spin-slow" style={{animationDuration: "15s"}} />
         </div>
@@ -35,6 +40,12 @@ const FloraHeader: React.FC = () => {
         </div>
         <div className="absolute bottom-5 left-1/4 opacity-15">
           <Flower className="h-16 w-16 text-flora-sunflower animate-float" style={{animationDuration: "18s"}} />
+        </div>
+        <div className="absolute top-10 left-1/3 opacity-20">
+          <Flower className="h-12 w-12 text-flora-lavender animate-spin-slow" style={{animationDuration: "20s", animationDirection: "reverse"}} />
+        </div>
+        <div className="absolute bottom-8 right-1/4 opacity-15">
+          <Flower className="h-14 w-14 text-flora-rose/80 animate-float" style={{animationDuration: "14s", animationDelay: "2s"}} />
         </div>
       </div>
       
@@ -72,6 +83,13 @@ const FloraHeader: React.FC = () => {
             <div className="absolute top-2 -left-4 animate-float" style={{animationDelay: "0.4s"}}>
               <Flower className="h-3 w-3 text-flora-rose/60" />
             </div>
+            {/* Added new animated elements */}
+            <div className="absolute -bottom-1 right-2 animate-pulse-gentle" style={{animationDelay: "0.7s"}}>
+              <Flower className="h-4 w-4 text-flora-sunflower/60" />
+            </div>
+            <div className="absolute -top-2 left-1/3 animate-sway" style={{animationDuration: "8s"}}>
+              <Flower className="h-3 w-3 text-flora-lavender/70" />
+            </div>
           </h1>
           <p className="text-xs md:text-sm text-flora-text/70 animate-fade-in relative">
             <span className="relative group inline-block">
@@ -80,6 +98,9 @@ const FloraHeader: React.FC = () => {
               </span>
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-flora-rose to-flora-leaf scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></span>
             </span>
+            {/* Added animated sparkles */}
+            <span className="absolute -top-2 -right-4 text-xs animate-pulse-gentle opacity-70">✨</span>
+            <span className="absolute -bottom-2 -left-3 text-xs animate-pulse-gentle opacity-70" style={{animationDelay: "0.3s"}}>✨</span>
           </p>
         </div>
       </div>

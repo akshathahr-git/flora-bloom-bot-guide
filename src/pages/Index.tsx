@@ -200,14 +200,16 @@ const Index = () => {
                     Ask me about any flower to get detailed information with beautiful photos!
                   </p>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-h-[400px] overflow-y-auto p-2">
-                  {featuredFlowers.map((flowerKey) => {
+                
+                {/* Updated grid layout for better alignment of 5 flowers */}
+                <div className="grid grid-cols-3 gap-4 max-h-[400px] overflow-y-auto p-2">
+                  {featuredFlowers.map((flowerKey, index) => {
                     const flower = flowerDatabase[flowerKey];
                     return (
                       <div 
                         key={flowerKey}
                         onClick={() => handleSendMessage(flower.commonName)}
-                        className="flower-sample group rounded-lg overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 animate-fade-in hover:scale-105"
+                        className={`flower-sample group rounded-lg overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 animate-fade-in hover:scale-105 ${index === featuredFlowers.length - 1 && featuredFlowers.length % 3 !== 0 ? 'col-span-2' : ''}`}
                         style={{ animationDelay: `${Math.random() * 0.5}s` }}
                       >
                         <div className="relative h-32 overflow-hidden">
@@ -235,6 +237,31 @@ const Index = () => {
                       </div>
                     );
                   })}
+                  
+                  {/* "Explore More Flowers" card to fill the gap */}
+                  <div 
+                    className="flower-sample group rounded-lg overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-500 animate-fade-in hover:scale-105 bg-gradient-to-br from-flora-rose/20 to-flora-leaf/30"
+                    onClick={() => handleSendMessage("Tell me about different types of flowers")}
+                  >
+                    <div className="relative h-32 overflow-hidden flex items-center justify-center">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="animate-pulse-gentle">
+                          <Flower className="h-12 w-12 text-flora-rose/70 animate-spin-slow" />
+                        </div>
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
+                        <span className="text-white font-medium p-3 text-base group-hover:text-flora-petal transition-colors w-full text-center">
+                          Explore More Flowers!
+                        </span>
+                      </div>
+                      <div className="absolute top-2 left-2 animate-float">
+                        <Flower className="h-4 w-4 text-flora-leaf/70" />
+                      </div>
+                      <div className="absolute bottom-10 right-4 animate-float" style={{animationDelay: '0.3s'}}>
+                        <Flower className="h-3 w-3 text-flora-sunflower/70" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
